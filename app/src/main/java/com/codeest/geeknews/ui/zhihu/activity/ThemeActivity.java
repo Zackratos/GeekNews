@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.codeest.geeknews.R;
 import com.codeest.geeknews.app.Constants;
 import com.codeest.geeknews.base.RootActivity;
@@ -129,7 +130,9 @@ public class ThemeActivity extends RootActivity<ThemeChildPresenter> implements 
         mList.addAll(themeChildListBean.getStories());
         mAdapter.notifyDataSetChanged();
         ImageLoader.load(mContext, themeChildListBean.getBackground(), ivOrigin);
-        Glide.with(mContext).load(themeChildListBean.getBackground()).bitmapTransform(new BlurTransformation(mContext)).into(ivBlur);
+        Glide.with(mContext).load(themeChildListBean.getBackground())
+                .apply(RequestOptions.bitmapTransform(new BlurTransformation()))
+                .into(ivBlur);
         tvDes.setText(themeChildListBean.getDescription());
     }
 }

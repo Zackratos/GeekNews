@@ -10,8 +10,9 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.codeest.geeknews.R;
 import com.codeest.geeknews.app.App;
 import com.codeest.geeknews.model.bean.GankItemBean;
@@ -63,10 +64,16 @@ public class GirlAdapter extends RecyclerView.Adapter<GirlAdapter.ViewHolder>{
             layoutParams.height = mList.get(holder.getAdapterPosition()).getHeight();
         }
 
-        Glide.with(mContext).load(mList.get(position).getUrl()).asBitmap().diskCacheStrategy(DiskCacheStrategy.ALL)
+        RequestOptions options = new RequestOptions().diskCacheStrategy(DiskCacheStrategy.ALL);
+
+
+        Glide.with(mContext).asBitmap()
+                .load(mList.get(position).getUrl())
+                .apply(options)
+//                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(new SimpleTarget<Bitmap>(App.SCREEN_WIDTH / 2, App.SCREEN_WIDTH / 2) {
                     @Override
-                    public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                    public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
                         if(holder.getAdapterPosition() != RecyclerView.NO_POSITION) {
                             if (mList.get(holder.getAdapterPosition()).getHeight() <= 0) {
                                 int width = resource.getWidth();
@@ -79,6 +86,7 @@ public class GirlAdapter extends RecyclerView.Adapter<GirlAdapter.ViewHolder>{
                             holder.ivGirl.setImageBitmap(resource);
                         }
                     }
+
                 });
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

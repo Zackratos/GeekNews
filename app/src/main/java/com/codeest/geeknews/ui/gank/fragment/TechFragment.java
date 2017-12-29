@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.codeest.geeknews.R;
 import com.codeest.geeknews.app.Constants;
 import com.codeest.geeknews.base.RootFragment;
@@ -151,7 +152,9 @@ public class TechFragment extends RootFragment<TechPresenter> implements TechCon
     @Override
     public void showGirlImage(String url, String copyright) {
         ImageLoader.load(mContext, url, ivOrigin);
-        Glide.with(mContext).load(url).bitmapTransform(new BlurTransformation(mContext)).into(ivBlur);
+        Glide.with(mContext).load(url)
+                .apply(RequestOptions.bitmapTransform(new BlurTransformation()))
+                .into(ivBlur);
         tvCopyright.setText(String.format("by: %s",copyright));
     }
 }

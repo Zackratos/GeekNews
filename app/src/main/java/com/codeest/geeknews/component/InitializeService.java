@@ -9,6 +9,7 @@ import com.codeest.geeknews.app.Constants;
 import com.codeest.geeknews.util.SystemUtil;
 import com.codeest.geeknews.widget.AppBlockCanaryContext;
 import com.github.moduth.blockcanary.BlockCanary;
+import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
 import com.squareup.leakcanary.LeakCanary;
 import com.tencent.bugly.crashreport.CrashReport;
@@ -46,7 +47,7 @@ public class InitializeService extends IntentService {
 
     private void initApplication() {
         //初始化日志
-        Logger.init(getPackageName()).hideThreadInfo();
+        Logger.addLogAdapter(new AndroidLogAdapter());
 
         //初始化错误收集
 //        CrashHandler.init(new CrashHandler(getApplicationContext()));

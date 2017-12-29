@@ -9,8 +9,8 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.codeest.geeknews.R;
 import com.codeest.geeknews.app.App;
 import com.codeest.geeknews.app.Constants;
@@ -20,11 +20,12 @@ import com.codeest.geeknews.model.db.RealmHelper;
 import com.codeest.geeknews.util.ShareUtil;
 import com.codeest.geeknews.util.SystemUtil;
 import com.codeest.geeknews.util.ToastUtil;
+import com.github.chrisbanes.photoview.PhotoViewAttacher;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import butterknife.BindView;
 import io.reactivex.functions.Consumer;
-import uk.co.senab.photoview.PhotoViewAttacher;
+//import uk.co.senab.photoview.PhotoViewAttacher;
 
 /**
  * Created by codeest on 16/8/20.
@@ -64,13 +65,15 @@ public class GirlDetailActivity extends SimpleActivity {
         url = intent.getExtras().getString(Constants.IT_GANK_GRIL_URL);
         id = intent.getExtras().getString(Constants.IT_GANK_GRIL_ID);
         if (url != null) {
-            Glide.with(mContext).load(url).asBitmap().into(new SimpleTarget<Bitmap>() {
-                @Override
-                public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                    bitmap = resource;
-                    ivGirlDetail.setImageBitmap(resource);
-                    mAttacher = new PhotoViewAttacher(ivGirlDetail);
-                }
+            Glide.with(mContext).asBitmap().load(url)
+                    .into(new SimpleTarget<Bitmap>() {
+                        @Override
+                        public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
+                            bitmap = resource;
+                            ivGirlDetail.setImageBitmap(resource);
+                            mAttacher = new PhotoViewAttacher(ivGirlDetail);
+                        }
+
             });
         }
     }
